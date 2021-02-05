@@ -67,19 +67,13 @@ Get a new descriptor object of the map state. If specified, props in the `overri
 
 Add/remove event listeners based on the latest `InteractiveMap` props.
 
-##### `setState`
-
-`setState(newState)`
-
-Save a persistent state (e.g. isDragging) for future use.
-
 ##### `updateViewport`
 
-`updateViewport(newMapState, extraProps, extraState)`
+`updateViewport(newMapState, extraProps, interactionState)`
 
 Invoke `onViewportChange` callback with a new map state.
 
 
 ## Source
 
-[map-controller.js](https://github.com/uber/react-map-gl/tree/5.2-release/src/utils/map-controller.js)
+[map-controller.js](https://github.com/visgl/react-map-gl/tree/6.0-release/src/utils/map-controller.js)

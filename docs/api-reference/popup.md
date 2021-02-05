@@ -1,4 +1,4 @@
-# Popup Control
+# Popup
 
 ![Since v3.0](https://img.shields.io/badge/since-v3.0-green)
 
@@ -6,30 +6,30 @@ This is a React equivalent of Mapbox's [Popup Control](https://www.mapbox.com/ma
 show tooltip popups with custom HTML content at specific locations on the map.
 
 ```js
-import {Component} from 'react';
+import * as React from 'react';
 import ReactMapGL, {Popup} from 'react-map-gl';
 
-class Map extends Component {
-  state = {
-    showPopup: true
-  };
+function App() {
+  const [viewport, setViewport] = React.useState({
+    longitude: -122.45,
+    latitude: 37.78,
+    zoom: 14
+  });
+  const [showPopup, togglePopup] = React.useState(false);
 
-  render() {
-    const {showPopup} = this.state;
-    return (
-      <ReactMapGL latitude={37.78} longitude={-122.41} zoom={8}>
-        {showPopup && <Popup
+  return (
+    <ReactMapGL {...viewport} width="100vw" height="100vh" onViewportChange={setViewport}>
+      {showPopup && <Popup
           latitude={37.78}
           longitude={-122.41}
           closeButton={true}
           closeOnClick={false}
-          onClose={() => this.setState({showPopup: false})}
+          onClose={() => togglePopup(false)}
           anchor="top" >
           <div>You are here</div>
         </Popup>}
-      </ReactMapGL>
-    );
-  }
+    </ReactMapGL>
+  );
 }
 ```
 
@@ -102,6 +102,10 @@ If `true`, the order of the popups will be dynamically rearranged to ensure that
 
 Callback when the user closes the popup.
 
+##### `className` (String)
+
+Assign a custom class name to the container of this control.
+
 ##### `captureScroll` (Boolean)
 
 - default: `false`
@@ -126,6 +130,11 @@ Stop propagation of click event to the map component. Can be used to stop map fr
 
 Stop propagation of dblclick event to the map component. Can be used to stop map from zooming when this component is double clicked.
 
+##### `capturePointerMove` (Boolean)
+
+- default: `false`
+
+Stop propagation of pointermove event to the map component. Can be used to stop map from calling the `onMouseMove` or `onTouchMove` callback when this component is hovered.
 
 ## Styling
 
@@ -133,5 +142,5 @@ Like its Mapbox counterpart, this control relies on the mapbox-gl stylesheet to 
 
 ## Source
 
-[popup.js](https://github.com/uber/react-map-gl/tree/5.2-release/src/components/popup.js)
+[popup.js](https://github.com/visgl/react-map-gl/tree/6.0-release/src/components/popup.js)
 

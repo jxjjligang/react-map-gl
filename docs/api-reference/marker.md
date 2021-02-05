@@ -1,4 +1,4 @@
-# Marker Control
+# Marker
 
 ![Since v3.0](https://img.shields.io/badge/since-v3.0-green)
 
@@ -7,19 +7,22 @@ This is a React equivalent of Mapbox's
 be used to render custom icons at specific locations on the map.
 
 ```js
-import {Component} from 'react';
+import * as React from 'react';
 import ReactMapGL, {Marker} from 'react-map-gl';
 
-class Map extends Component {
-  render() {
-    return (
-      <ReactMapGL latitude={37.78} longitude={-122.41} zoom={8}>
-        <Marker latitude={37.78} longitude={-122.41} offsetLeft={-20} offsetTop={-10}>
-          <div>You are here</div>
-        </Marker>
-      </ReactMapGL>
-    );
-  }
+function App() {
+  const [viewport, setViewport] = React.useState({
+    longitude: -122.45,
+    latitude: 37.78,
+    zoom: 14
+  });
+  return (
+    <ReactMapGL {...viewport} width="100vw" height="100vh" onViewportChange={setViewport}>
+      <Marker latitude={37.78} longitude={-122.41} offsetLeft={-20} offsetTop={-10}>
+        <div>You are here</div>
+      </Marker>
+    </ReactMapGL>
+  );
 }
 ```
 
@@ -27,37 +30,29 @@ Performance notes: if a large number of markers are needed, it's generally favor
 
 ```js
 import * as React from 'react';
-import {PureComponent} from 'react';
 import ReactMapGL, {Marker} from 'react-map-gl';
 
-const CITIES = [...];
+function App(props) {
+  const [viewport, setViewport] = React.useState({
+    longitude: -122.45,
+    latitude: 37.78,
+    zoom: 14
+  });
 
-// PureComponent ensures that the markers are only rerendered when data changes
-class Markers extends PureComponent {
-  render() {
-    const {data} = this.props;
-    return data.map(
-      city => <Marker key={city.name} longitude={city.longitude} latitude={city.latitude} ><img src="pin.png" /></Marker>
+  // Only rerender markers if props.data has changed
+  const markers = React.useMemo(() => data.map(
+    city => (
+      <Marker key={city.name} longitude={city.longitude} latitude={city.latitude} >
+        <img src="pin.png" />
+      </Marker>
     )
-  }
-}
+  ), [props.data]);
 
-class Map extends PureComponent {
-  state = {
-    viewport: {
-      latitude: 37.78,
-      longitude: -122.41,
-      zoom: 8
-    }
-  };
-
-  render() {
-    return (
-      <ReactMapGL {...this.state.viewport} onViewportChange={viewport => this.setState({viewport})}>
-        <Markers data={CITIES} />
-      </ReactMapGL>
-    );
-  }
+  return (
+    <ReactMapGL {...viewport} width="100vw" height="100vh" onViewportChange={setViewport}>
+      {markers}
+    </ReactMapGL>
+  );
 }
 ```
 
@@ -115,6 +110,10 @@ Parameters:
 - `event` - The pointer event.
   + `event.lngLat` - The geo coordinates where the drag ended, as `[lng, lat]`.
 
+##### `className` (String)
+
+Assign a custom class name to the container of this control.
+
 ##### `captureScroll` (Boolean)
 
 - default: `false`
@@ -125,7 +124,7 @@ Stop propagation of mouse wheel event to the map component. Can be used to stop 
 
 - default: `true`
 
-Stop propagation of dragstart event to the map component. Can be used to stop map from panning when this component is dragged. Automatically true if `draggable` is `true`.
+Stop propagation of dragstart event to the map component. Can be used to stop map from panning when this component is dragged.
 
 ##### `captureClick` (Boolean)
 
@@ -139,11 +138,17 @@ Stop propagation of click event to the map component. Can be used to stop map fr
 
 Stop propagation of dblclick event to the map component. Can be used to stop map from zooming when this component is double clicked.
 
+##### `capturePointerMove` (Boolean)
+
+- default: `false`
+
+Stop propagation of pointermove event to the map component. Can be used to stop map from calling the `onMouseMove` or `onTouchMove` callback when this component is hovered.
+
 ## Styling
 
 Like its Mapbox counterpart, this control relies on the mapbox-gl stylesheet to work properly. Make sure to add the stylesheet to your page.
 
 ## Source
 
-[marker.js](https://github.com/uber/react-map-gl/tree/5.2-release/src/components/marker.js)
+[marker.js](https://github.com/visgl/react-map-gl/tree/6.0-release/src/components/marker.js)
 

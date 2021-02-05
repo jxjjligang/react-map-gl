@@ -1,5 +1,27 @@
 # Upgrade Guide
 
+## Upgrading to v5.3/v6.1
+
+- `MapContext` is now an official API. The experimental `_MapContext` export will be removed in a future release.
+- `react-virtualized-auto-sizer` is no longer a dependency.
+- Inertia has been enabled by default on the map controller. To revert to the behavior in previous versions, set the [interaction options](/docs/api-reference/interactive-map.md#interaction-options):
+
+```js
+const CONTROLLER_OPTS = {
+  dragPan: {inertia: 0},
+  dragRotate: {inertia: 0},
+  touchZoom: {inertia: 0}
+};
+
+<MapGL {...CONTROLLER_OPTS} ... />
+```
+
+## Upgrading to v6
+
+- A valid Mapbox access token is always required.
+- The default value of `InteractiveMap`'s `maxPitch` prop is changed to `85` from `60`.
+- `mapbox-gl` v2 introduced a breaking change to the build system. Transpiling it may result in a crash in the production build with the message `m is not defined`. Find solutions in [this thread](https://github.com/mapbox/mapbox-gl-js/issues/10173).
+
 ## Upgrading to v4
 
 - `onChangeViewport` is removed, use `onViewportChange` instead
@@ -46,7 +68,8 @@ The `viewport` parameter passed to the `onChangeViewport` callback now includes 
 
 ### `fitBounds` utility function
 
-The `fitBounds` utility has been moved to the [viewport-mercator-project](https://github.com/uber-common/viewport-mercator-project) library. The function can now be called as follows:
+The `fitBounds` utility has been moved to the [math.gl](https://github.com/uber-web/math.gl) library. The function can now be called as follows:
+
 ```js
 import WebMercatorViewport from 'viewport-mercator-project';
 const viewport = new WebMercatorViewport({width: 600, height: 400});

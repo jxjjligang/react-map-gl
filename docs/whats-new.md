@@ -1,5 +1,31 @@
 # What's new
 
+## react-map-gl v5.3/v6.1
+
+Release date: Jan 27, 2020
+
+### Highlights
+
+- **TypeScript and Flow typings** are now published with the library
+- **More controller customizations.** Smooth easing on wheel scroll, three-finger gesture to change pitch, inertia after pan/pinch, and customizable keyboard navigation speed. See the updated [interaction options](/docs/api-reference/interactive-map.md#interaction-options) for details.
+- A new [eventRecognizerOptions](/docs/api-reference/interactive-map.md#eventrecognizeroptions) prop is added for fine-tuning the interaction experience.
+- New component: [AttributionControl](/docs/api-reference/attribution-control.md)
+- Promoted to official API: [MapContext](/docs/api-reference/map-context.md)
+- Resolved React error over attempted state update during render
+- `GeolocateControl` added supports for `showAccuracyCircle`
+- All controls now support inline styling with a `style` prop
+- All components and examples have been rewritten as functional components
+
+## react-map-gl v6.0
+
+Release date: Dec 16, 2020
+
+### What's Changed
+
+The 6.0 release upgrades its Mapbox GL JS dependency to v2.0. There are [important changes](https://github.com/mapbox/mapbox-gl-js/releases/tag/v2.0.0) to mapbox-gl's license and pricing model in this milestone. If you are NOT using a Mapbox account (e.g. self-hosting map tiles), do **NOT** upgrade to this version, and consider your options discussed in [this document](/docs/get-started/mapbox-tokens.md).
+
+See [upgrade guide](/docs/upgrade-guide.md) for a complete list of breaking changes.
+
 ## react-map-gl v5.2
 
 Release date: Jan 6, 2020
@@ -8,9 +34,9 @@ Release date: Jan 6, 2020
 
 - **New Components**: [`ScaleControl`](/docs/api-reference/scale-control.md)
 - **NavigationControl**: new `label` prop
-- **GeolocateControl**: new `label`, `onGeolocate` props
+- **GeolocateControl**: new `label`, `onGeolocate`, `auto` props
 - **New Export**: `WebMercatorViewport` is re-exported from the `viewport-mercator-project` library for ease of use. It's recommended to import it from `react-map-gl` instead to avoid future dependency change.
-- **New Example**: [Clusters](https://uber.github.io/react-map-gl/examples/clusters)
+- **New Example**: [Clusters](https://visgl.github.io/react-map-gl/examples/clusters)
 
 ## react-map-gl v5.1
 
@@ -20,7 +46,7 @@ Release date: Oct 30, 2019
 
 - **New Components**: [`Layer`](/docs/api-reference/layer.md) and [`Source`](/docs/api-reference/source.md) have been added to provide better React parity with the `Mapbox GL JS` API.
 - **Viewport transition**: `transitionDuration` can be set to `'auto'` when using [`FlyToInterpolator`](/docs/api-reference/fly-to-interpolator.md).
-- **New Example**: Add an [example](https://uber.github.io/react-map-gl/examples/draw-polygon) with drawing library [react-map-gl-draw](https://github.com/uber/nebula.gl/tree/master/modules/react-map-gl-draw).
+- **New Example**: Add an [example](https://visgl.github.io/react-map-gl/examples/draw-polygon) with drawing library [react-map-gl-draw](https://github.com/uber/nebula.gl/tree/master/modules/react-map-gl-draw).
 
 ## react-map-gl v5.0
 
@@ -28,13 +54,13 @@ Release date: May 31, 2019
 
 ### What's Changed
 
-The only change between the 5.0 release and the latest 4.1 release is Mapbox GL JS v1.0. By using this version, you opt into Mapbox's new pricing model, which bills per map load instead of map views. 5.0.x and 4.1.x will continue to update in parallel with otherwise identical features until November 2019 when Mapbox moves all users of 0.xx to a new pricing scheme. For more details, see mapbox's [changelog](https://github.com/mapbox/mapbox-gl-js/releases/tag/v1.0.0) and [blog post](https://blog.mapbox.com/new-pricing-46b7c26166e7). 
+The only change between the 5.0 release and the latest 4.1 release is Mapbox GL JS v1.0. By using this version, you opt into Mapbox's new pricing model, which bills per map load instead of map views. 5.0.x and 4.1.x will continue to update in parallel with otherwise identical features until November 2019 when Mapbox moves all users of 0.xx to a new pricing scheme. For more details, see mapbox's [changelog](https://github.com/mapbox/mapbox-gl-js/releases/tag/v1.0.0) and [blog post](https://blog.mapbox.com/new-pricing-46b7c26166e7).
 
 Alongside Mapbox GL JS's new milestone, we have relaxed the `mapbox-gl` dependency from locking minor release (`~0.53.0`) to major release (`^1.0.0`). This will allow developers to upgrade faster without waiting for a new release from react-map-gl.
 
 ## react-map-gl v4.1
 
-Release date: Mar 14, 2019 
+Release date: Mar 14, 2019
 
 ### Highlights
 
@@ -132,11 +158,11 @@ Release date: July 27th, 2017
 
 #### [InteractiveMap (New, MapGL replacement)](/docs/api-reference/interactive-map.md)
 
-This is a wrapper on top of `StaticMap`. It takes all the props of `StaticMap` and additional ones such as `onViewportChange`, `scrollZoom`, `dragRotate`, etc. to control interactivity on the map. See [Source Code](https://github.com/uber/react-map-gl/tree/3.0-release/src/components/interactive-map.js) for more information.
+This is a wrapper on top of `StaticMap`. It takes all the props of `StaticMap` and additional ones such as `onViewportChange`, `scrollZoom`, `dragRotate`, etc. to control interactivity on the map. See [Source Code](https://github.com/visgl/react-map-gl/tree/3.0-release/src/components/interactive-map.js) for more information.
 
 #### [StaticMap (New)](/docs/api-reference/static-map.md)
 
-This is the React wrapper around `Mapbox GL JS` and takes in viewport properties such as `width`, `height`, `latitude`, `longitude`. Style diffing and updating logic also live here. See [Source Code](https://github.com/uber/react-map-gl/tree/3.0-release/src/components/static-map.js) for more information.
+This is the React wrapper around `Mapbox GL JS` and takes in viewport properties such as `width`, `height`, `latitude`, `longitude`. Style diffing and updating logic also live here. See [Source Code](https://github.com/visgl/react-map-gl/tree/3.0-release/src/components/static-map.js) for more information.
 
 #### Overlays
 
@@ -168,7 +194,7 @@ Date: Jan 17, 2017
 
 ## react-map-gl v1.0
 
-* **Perspective Mode** - Now supports `bearing` and `pitch` properties, per mapbox-gl-js api documentation. These props default to 0 which means that maps will still be rendered in flat/ortographic mode when they are not provided
+* **Perspective Mode** - Now supports `bearing` and `pitch` properties, per mapbox-gl api documentation. These props default to 0 which means that maps will still be rendered in flat/ortographic mode when they are not provided
 * **Support for ES6 imports** - The map overlay components (HTMLOverlay, CanvasOverlay, SVGOverlay etc) previously had to be imported via their relative source paths can now be imported directly using `import {SVGOverlay} from 'react-map-gl'.
 
 

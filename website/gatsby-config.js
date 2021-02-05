@@ -1,5 +1,7 @@
-const resolve = require('path').resolve;
+const {resolve} = require('path');
 const DOC_TABLE_OF_CONTENTS = require('../docs/table-of-contents.json');
+
+const ROOT_DIR = resolve('..');
 
 module.exports = {
   plugins: [
@@ -10,30 +12,34 @@ module.exports = {
 
         // Folders
         DIR_NAME: __dirname,
-        ROOT_FOLDER: `${__dirname}/../`,
+        ROOT_FOLDER: ROOT_DIR,
 
         DOCS: DOC_TABLE_OF_CONTENTS,
         DOC_FOLDERS: [
-          `${__dirname}/../docs/`
+          resolve(ROOT_DIR, 'docs')
         ],
-        SOURCE: [`${__dirname}/static`],
+        SOURCE: [
+          resolve('./static'),
+          resolve('./src'),
+        ],
 
         PROJECT_TYPE: 'github',
 
         PROJECT_NAME: 'react-map-gl',
-        PROJECT_ORG: 'uber',
-        PROJECT_ORG_LOGO: 'images/uber-logo.png',
-        PROJECT_URL: 'https://github.com/uber/',
+        PROJECT_ORG: 'visgl',
+        PROJECT_ORG_LOGO: 'images/visgl-logo.png',
+        PROJECT_URL: 'https://github.com/visgl/',
         PROJECT_DESC: 'React wrapper for Mapbox GL JS',
-        PATH_PREFIX: '/react-map-gl/',
+        PROJECT_IMAGE: 'images/hero-sm.jpg',
+        PATH_PREFIX: '/react-map-gl',
 
-        GA_TRACKING: null,
+        GA_TRACKING_ID: 'UA-74374017-2',
 
         // For showing star counts and contributors.
         // Should be like btoa('YourUsername:YourKey') and should be readonly.
         GITHUB_KEY: null,
 
-        HOME_PATH: '/',
+        HOME_PATH: '',
 
         PROJECTS: [
           {
@@ -56,7 +62,7 @@ module.exports = {
 
         LINK_TO_GET_STARTED: '/docs/get-started/get-started',
 
-        ADDITIONAL_LINKS: [{name: 'Blog', href: 'http://medium.com/vis-gl'}],
+        ADDITIONAL_LINKS: [{name: 'Blog', href: 'http://medium.com/vis-gl', index: 4}],
 
         INDEX_PAGE_URL: resolve(__dirname, './src/home.js'),
 
@@ -147,8 +153,10 @@ module.exports = {
           }
         ],
 
+        THEME_OVERRIDES: require('./src/theme.json'),
+
         STYLESHEETS: [
-          'https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.0/mapbox-gl.css',
+          'https://api.tiles.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.css',
           'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css',
           '/style.css'
         ]

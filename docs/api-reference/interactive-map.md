@@ -4,28 +4,21 @@
 
 This component renders `MapboxGL` and provides full interactivity support.
 It uses `StaticMap` underneath to render the final map component.
-This is the `default` exported component from `ReactMapGL`.
+This is the `default` exported component from `react-map-gl`.
 
 ```js
-import {Component} from 'react';
+import * as React from 'react';
 import ReactMapGL from 'react-map-gl';
 
-class Map extends Component {
-  render() {
-    return (
-      <ReactMapGL
-        width={400}
-        height={400}
-        latitude={37.7577}
-        longitude={-122.4376}
-        zoom={8}
-        onViewportChange={(viewport) => {
-          const {width, height, latitude, longitude, zoom} = viewport;
-          // call `setState` and use the state to update the map.
-        }}
-      />
-    );
-  }
+function App() {
+  const [viewport, setViewport] = React.useState({
+    longitude: -122.45,
+    latitude: 37.78,
+    zoom: 14
+  });
+  return (
+    <ReactMapGL {...viewport} width="100vw" height="100vh" onViewportChange={setViewport} />
+  );
 }
 ```
 
@@ -99,7 +92,7 @@ Min zoom level.
 
 ##### `maxPitch` (Number)
 
-- default: `60`
+- default: `85`
 
 Max pitch in degrees.
 
@@ -109,23 +102,30 @@ Max pitch in degrees.
 
 Min pitch in degrees.
 
-##### `scrollZoom` (Boolean)
+##### `scrollZoom` (Boolean|Object)
 
 - default: `true`
 
-Enable scroll to zoom.
+Enable scroll to zoom. If an object is provided, may contain the following options to customize the scroll zoom behavior:
 
-##### `dragPan` (Boolean)
+- `speed` (Number) - Multiplier for the wheel delta. Default `0.01`.
+- `smooth` (Boolean) - Smoothly transition to the new zoom. If enabled, will provide a slightly lagged but smoother experience. Default `false`.
+
+##### `dragPan` (Boolean|Object)
 
 - default: `true`
 
-Enable drag to pan.
+Enable drag to pan. If an object is provided, may contain the following options to customize its behavior:
+
+- `inertia` (Number) - Enable momentum/inertia when the gesture ends. The value specifies after how long the panning comes to a stop, in milliseconds. Default `300`.
 
 ##### `dragRotate` (Boolean)
 
 - default: `true`
 
-Enable drag to rotate.
+Enable drag to rotate. If an object is provided, may contain the following options to customize its behavior:
+
+- `inertia` (Number) - Enable momentum/inertia when the gesture ends. The value specifies after how long the rotation comes to a stop, in milliseconds. Default `300`.
 
 ##### `doubleClickZoom` (Boolean)
 
@@ -133,17 +133,33 @@ Enable drag to rotate.
 
 Enable double click to zoom.
 
-##### `touchZoom` (Boolean)
+##### `touchZoom` (Boolean|Object)
 
 - default: `true`
 
-Enable multitouch zoom.
+Enable multitouch zoom. If an object is provided, may contain the following options to customize its behavior:
 
-##### `touchRotate` (Boolean)
+- `inertia` (Number) - Enable momentum/inertia when the gesture ends. The value specifies after how long the zooming comes to a stop, in milliseconds. Default `300`.
+
+##### `touchRotate` (Boolean|Object)
 
 - default: `false`
 
-Enable multitouch rotate.
+Enable multitouch rotate, including two-finger rotation to change bearing and three-finger swipe to change pitch. If an object is provided, may contain the following options to customize its behavior:
+
+- `inertia` (Number) - Enable momentum/inertia when the gesture ends. The value specifies after how long the rotation comes to a stop, in milliseconds. Default `300`.
+
+##### `keyboard (Boolean|Object)
+
+- default: `true`
+
+Enable keyboard navigation. If an object is provided, may contain the following options to customize its behavior:
+
+- `zoomSpeed` (Number) - speed of zoom using +/- keys. Default `2`.
+- `moveSpeed` (Number) - speed of movement using arrow keys, in pixels.
+- `rotateSpeedX` (Number) - speed of rotation using shift + left/right arrow keys, in degrees. Default `15`.
+- `rotateSpeedY` (Number) - speed of rotation using shift + up/down arrow keys, in degrees. Default `10`.
+
 
 ##### `touchAction` (String)
 
@@ -153,6 +169,33 @@ Allow browser default touch actions. Default `none`. See [hammer.js doc](http://
 
 By default, the map captures all touch interactions. This prop is useful for mobile applications to unblock default scrolling behavior. For example, use the combination `dragPan: false` and `touchAction: 'pan-y'` to allow vertical page scroll when dragging over the map.
 
+##### `eventRecognizerOptions` (Object)
+
+- default: `{}`
+
+Set options for gesture recognition. My contain the following fields:
+
+- `pan` - an object that is [Hammer.Pan](http://hammerjs.github.io/recognizer-pan/) options. This gesture is used for drag events.
+- `pinch` - an object that is [Hammer.Pinch](http://hammerjs.github.io/recognizer-pinch/) options This gesture is used for two-finger touch events.
+- `tripan` - an object that is [Hammer.Pan](http://hammerjs.github.io/recognizer-pan/) options.  This gesture is used for three-finger touch events.
+- `tap` - an object that is [Hammer.Tap](http://hammerjs.github.io/recognizer-tap/) options. This gesture is used for the `onClick` callback.
+- `anytap` - an object that is [Hammer.Tap](http://hammerjs.github.io/recognizer-tap/) options. This gesture is used for the `onNativeClick` callback.
+- `doubletap` - an object that is [Hammer.Tap](http://hammerjs.github.io/recognizer-tap/) options. This gesture is used for double click events.
+
+For example, the following setting makes panning less sensitive and clicking easier on mobile:
+
+```jsx
+const eventRecognizerOptions = isMobile ? {
+  pan: {threshold: 10},
+  tap: {threshold: 5}
+} : {};
+
+<MapGL
+  eventRecognizerOptions={eventRecognizerOptions}
+/>
+```
+
+Note that the value of this prop is used once when the component mounts. Subsequent changes will be ignored.
 
 ##### `clickRadius` (Number)
 
@@ -366,5 +409,4 @@ Inherit the following methods from [StaticMap](/docs/api-reference/static-map.md
 
 ## Source
 
-[interactive-map.js](https://github.com/uber/react-map-gl/tree/5.2-release/src/components/interactive-map.js)
-
+[interactive-map.js](https://github.com/visgl/react-map-gl/tree/6.0-release/src/components/interactive-map.js)

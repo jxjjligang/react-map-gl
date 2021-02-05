@@ -13,7 +13,6 @@ const ScatterplotOverlay = require('./scatterplot-overlay');
       globalOpacity={0.8}
       compositeOperation="lighter"
       dotFill="blue"
-      renderWhileDragging={true}
     />
 </MapGL>
 ```
@@ -21,15 +20,15 @@ const ScatterplotOverlay = require('./scatterplot-overlay');
 ## Props
 
 #### locations
-An [ImmutableJS](https://facebook.github.io/immutable-js/) [List](https://facebook.github.io/immutable-js/docs/#/List) of points.
+An array of points.
 
 ```js
-const locations = Immutable.fromJS([
+const locations = [
   [-122.39851786165565, 37.78736425435588],
   [-122.40015469418074, 37.78531678199267],
   [-122.4124101516789, 37.80051001607987],
   // ...
-]);
+];
 ```
 
 #### lngLatAccessor
@@ -42,9 +41,6 @@ function lngLatAccessor(location) {
 }
 ```
 
-#### renderWhileDragging
-
-If the overlay should redraw when the user is dragging the map. Default `true`.
 
 #### dotRadius
 

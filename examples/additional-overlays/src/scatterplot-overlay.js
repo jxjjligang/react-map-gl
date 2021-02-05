@@ -18,10 +18,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 import * as React from 'react';
-import {PureComponent} from 'react';
+import {useCallback} from 'react';
 import PropTypes from 'prop-types';
 
-import Immutable from 'immutable';
 import {CanvasOverlay} from 'react-map-gl';
 
 function round(x, n) {
@@ -30,9 +29,8 @@ function round(x, n) {
 }
 
 const propTypes = {
-  locations: PropTypes.instanceOf(Immutable.List).isRequired,
+  locations: PropTypes.array.isRequired,
   lngLatAccessor: PropTypes.func,
-  renderWhileDragging: PropTypes.bool,
   globalOpacity: PropTypes.number,
   dotRadius: PropTypes.number,
   dotFill: PropTypes.string,
@@ -40,8 +38,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-  lngLatAccessor: location => [location.get(0), location.get(1)],
-  renderWhileDragging: true,
+  lngLatAccessor: location => location,
   dotRadius: 4,
   dotFill: '#1FBAD6',
   globalOpacity: 1,
@@ -49,46 +46,34 @@ const defaultProps = {
   compositeOperation: 'source-over'
 };
 
-export default class ScatterplotOverlay extends PureComponent {
+export default function ScatterplotOverlay(props) {
   /* eslint-disable max-statements */
-  _redraw = ({width, height, ctx, isDragging, project, unproject}) => {
-    const {
-      dotRadius,
-      dotFill,
-      compositeOperation,
-      renderWhileDragging,
-      locations,
-      lngLatAccessor
-    } = this.props;
+  const redraw = useCallback(({width, height, ctx, project, unproject}) => {
+    const {dotRadius, dotFill, compositeOperation, locations, lngLatAccessor} = props;
 
     ctx.clearRect(0, 0, width, height);
     ctx.globalCompositeOperation = compositeOperation;
 
-    if ((renderWhileDragging || !isDragging) && locations) {
-      for (const location of locations) {
-        const pixel = project(lngLatAccessor(location));
-        const pixelRounded = [round(pixel[0], 1), round(pixel[1], 1)];
-        if (
-          pixelRounded[0] + dotRadius >= 0 &&
-          pixelRounded[0] - dotRadius < width &&
-          pixelRounded[1] + dotRadius >= 0 &&
-          pixelRounded[1] - dotRadius < height
-        ) {
-          ctx.fillStyle = dotFill;
-          ctx.beginPath();
-          ctx.arc(pixelRounded[0], pixelRounded[1], dotRadius, 0, Math.PI * 2);
-          ctx.fill();
-        }
+    for (const location of locations) {
+      const pixel = project(lngLatAccessor(location));
+      const pixelRounded = [round(pixel[0], 1), round(pixel[1], 1)];
+      if (
+        pixelRounded[0] + dotRadius >= 0 &&
+        pixelRounded[0] - dotRadius < width &&
+        pixelRounded[1] + dotRadius >= 0 &&
+        pixelRounded[1] - dotRadius < height
+      ) {
+        ctx.fillStyle = dotFill;
+        ctx.beginPath();
+        ctx.arc(pixelRounded[0], pixelRounded[1], dotRadius, 0, Math.PI * 2);
+        ctx.fill();
       }
     }
-  };
+  }, []);
   /* eslint-enable max-statements */
 
-  render() {
-    return <CanvasOverlay redraw={this._redraw} />;
-  }
+  return <CanvasOverlay redraw={redraw} />;
 }
 
-ScatterplotOverlay.displayName = 'ScatterplotOverlay';
 ScatterplotOverlay.propTypes = propTypes;
 ScatterplotOverlay.defaultProps = defaultProps;

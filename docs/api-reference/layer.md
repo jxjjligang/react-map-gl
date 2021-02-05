@@ -16,15 +16,19 @@ const parkLayer = {
   filter: ['==', 'class', 'park']
 };
 
-class Map extends React.Component {
-  render() {
-    const {parkColor = '#dea'} = this.props;
-    return (
-      <ReactMapGL latitude={37.78} longitude={-122.41} zoom={8}>
-        <Layer {...parkLayer} paint={{'fill-color': parkColor}} />
-      </ReactMapGL>
-    );
-  }
+function App() {
+  const [viewport, setViewport] = React.useState({
+    longitude: -122.45,
+    latitude: 37.78,
+    zoom: 14
+  });
+  const [parkColor, setParkColor] = React.useState('#8fa');
+
+  return (
+    <ReactMapGL {...viewport} width="100vw" height="100vh" onViewportChange={setViewport}>
+      <Layer {...parkLayer} paint={{'fill-color': parkColor}} />
+    </ReactMapGL>
+  );
 }
 ```
 
@@ -61,5 +65,5 @@ Note that layers are added by the order that they mount. They are *NOT* reordere
 
 ## Source
 
-[layer.js](https://github.com/uber/react-map-gl/tree/5.2-release/src/components/layer.js)
+[layer.js](https://github.com/visgl/react-map-gl/tree/6.0-release/src/components/layer.js)
 

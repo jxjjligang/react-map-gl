@@ -19,11 +19,19 @@ const HeroExample = styled.div`
   height: 100%;
 `;
 
+const ContentContainer = styled.div`
+  padding: 64px;
+
+  @media screen and (max-width: 768px) {
+    padding: 48px;
+  }
+`;
+
 export default class IndexPage extends React.Component {
   render() {
     return (
       <Home HeroExample={HeroExample}>
-        <div>
+        <ContentContainer>
           <h2>
             react-map-gl makes using Mapbox GL JS in React applications easy.
           </h2>
@@ -48,7 +56,7 @@ export default class IndexPage extends React.Component {
 
           <h3>
             <Icon src="images/icon-high-precision.svg" />
-            Part of Uber Visualization's Framework Suite
+            Part of vis.gl's Framework Suite
           </h3>
           <p>
           Use together with e.g. <a
@@ -59,7 +67,7 @@ export default class IndexPage extends React.Component {
             WebGL visualizations on top of your Mapbox GL JS based maps.
           </p>
 
-        </div>
+        </ContentContainer>
       </Home>
     );
   }

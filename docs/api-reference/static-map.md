@@ -7,20 +7,18 @@ static, and should be used to render a map with no interactivity. For a componen
 that supports full user interactivity, see [InteractiveMap](/docs/api-reference/interactive-map.md).
 
 ```js
-import {Component} from 'react';
+import * as React from 'react';
 import {StaticMap} from 'react-map-gl';
 
-class Map extends Component {
-  render() {
-    return (
-      <StaticMap
-        width={400}
-        height={400}
-        latitude={37.7577}
-        longitude={-122.4376}
-        zoom={8} />
-    );
-  }
+function App() {
+  return (
+    <StaticMap
+      width="100vw"
+      height="100vh"
+      latitude={37.78}
+      longitude={-122.45}
+      zoom={8} />
+  );
 }
 ```
 
@@ -63,7 +61,7 @@ Enables the use of private and country specific servers Mapbox servers, e.g. htt
 
 - default: `{}`
 
-> Non-public API, see https://github.com/uber/react-map-gl/issues/545
+> Non-public API, see https://github.com/visgl/react-map-gl/issues/545
 
 An object of additional options to be passed to Mapbox's [`Map` constructor](https://www.mapbox.com/mapbox-gl-js/api/#map). Options specified here
 will take precedence over those same options if set via props.
@@ -236,34 +234,6 @@ Use Mapbox's `queryRenderedFeatures` API to find features at point or in a bound
 - `parameters` - Query options. For more details, see [Mapbox API documentation](https://www.mapbox.com/mapbox-gl-js/api/#Map#queryRenderedFeatures).
 
 
-## FAQ
-
-##### Where is `fitBounds`?
-
-You can use the `WebMercatorViewport` utility to find the target viewport that fits around a lngLat bounding box:
-
-```js
-import {WebMercatorViewport} from 'react-map-gl';
-
-const viewport = new WebMercatorViewport({width: 800, height: 600})
-    .fitBounds([[-122.4, 37.7], [-122.5, 37.8]], {
-      padding: 20,
-      offset: [0, -100]
-    });
-
-/* viewport is a WebMercatorViewport instance, containing these fields:
-    latitude: 37.75001689223574,
-    longitude: -122.44999999999976,
-    zoom: 10.966817190981073,
-    pitch: 0,
-    bearing: 0,
-    ...
- */
-```
-
-[Documentation of WebMercatorViewport](docs/api-reference/web-mercator-viewport.md)
-
-
 ## Source
 
-[static-map.js](https://github.com/uber/react-map-gl/tree/5.2-release/src/components/static-map.js)
+[static-map.js](https://github.com/visgl/react-map-gl/tree/6.0-release/src/components/static-map.js)

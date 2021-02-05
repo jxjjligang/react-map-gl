@@ -6,7 +6,7 @@ import MapGL from 'react-map-gl';
 import ControlPanel from './control-panel';
 import MAP_STYLE from '../../map-style-basic-v8.json';
 
-const MAPBOX_TOKEN = ''; // Set your mapbox token here
+const MAPBOX_TOKEN = 'pk.eyJ1IjoiZ2FuZ2xpIiwiYSI6ImNrOTRxZXYzNzBmbzUzZXA4a2l3cG41NTMifQ.VnoJjwJe6vDHvY_GqpZGUA'; // Set your mapbox token here
 
 export default class App extends Component {
   state = {
